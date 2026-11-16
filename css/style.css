@@ -126,7 +126,7 @@ body.intro-active .hero-bottom{opacity:.35}
 @media(max-width:760px){.trait-aside{float:none;width:100%;margin:0 0 26px;padding:15px}.trait-aside .trait-bubbles{grid-template-columns:repeat(4,minmax(0,1fr));gap:6px;margin-bottom:15px}.trait-aside .trait-bubble{min-height:65px;font-size:12px;aspect-ratio:auto;padding:8px 2px}.trait-aside .trait-story{min-height:50px}}
 @media(max-width:420px){.trait-aside .trait-bubble{min-height:60px;font-size:12px}}
 
-/* V3.9 | Clockwise orbit: 01 bottom-left → 02 upper-left → 03 upper-right → 04 bottom-right */
+/* V3.9 | Clockwise orbit: 01 bottom-left › 02 upper-left › 03 upper-right › 04 bottom-right */
 @media(min-width:1101px){
   .cards-area .card-1{left:9%;top:46%;transform:rotate(8deg)}
   .cards-area .card-2{left:15%;top:13%;transform:rotate(-9deg)}
@@ -404,3 +404,13 @@ body .hero-stage{height:clamp(590px,calc(100vh - 84px),950px)}
  footer{padding:20px!important}
 }
 @media (max-width:390px){.hero-stage{min-height:680px!important}.comic-card{min-height:88px!important}.card-number{font-size:8px!important}.card-caption{font-size:9px!important}}
+
+/* V3.23: mobile portrait cards rise above the 3D character's head. Desktop unchanged. */
+@media (max-width:720px) and (orientation:portrait){
+  .cards-area .comic-card{width:calc(50% - 21px)!important;min-height:88px!important;padding:9px 10px!important}
+  .cards-area .card-2{left:3%!important;right:auto!important;top:11%!important;transform:rotate(-5deg)!important}
+  .cards-area .card-3{right:3%!important;left:auto!important;top:11%!important;transform:rotate(5deg)!important}
+  .cards-area .card-1{left:3%!important;right:auto!important;top:27%!important;transform:rotate(4deg)!important}
+  .cards-area .card-4{right:3%!important;left:auto!important;top:27%!important;transform:rotate(-4deg)!important}
+  .cards-area .comic-card .card-title span{font-family:Arial,sans-serif!important;font-size:.85em!important}
+}
