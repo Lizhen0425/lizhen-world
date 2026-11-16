@@ -16,12 +16,11 @@ function iosCueLoop(){
  iosTimer=requestAnimationFrame(iosCueLoop);
 }
 function startIOSIntro(){
- if(isPortraitMobile()||state.phase!=='INTRO_PLAYING')return;
+ if(state.phase!=='INTRO_PLAYING')return;
  video.pause();video.hidden=true;iosIntroImage.hidden=false;
  // Replacing the animated image restarts it at frame zero after the orientation gate.
  iosIntroImage.removeAttribute('src');
  requestAnimationFrame(()=>{
-  if(isPortraitMobile())return;
   iosIntroImage.src='assets/videos/intro-ios.webp';
   iosStartedAt=performance.now();iosCueLoop();
  });
@@ -64,50 +63,20 @@ video.addEventListener('error',()=>{console.warn('開場影片無法載入，顯
 video.addEventListener('playing',()=>{playIntroButton.hidden=true;cancelAnimationFrame(animationFrame);updateIntroCues();});
 video.addEventListener('pause',()=>cancelAnimationFrame(animationFrame));
 // Browsers can disallow autoplay; only then show a PLAY button (never a skip button).
-const portraitMobileQuery=window.matchMedia('(orientation: portrait) and (max-width: 850px)');
-let introWaitingForLandscape=false;
-let introWasPausedByRotation=false;
-function isPortraitMobile(){return portraitMobileQuery.matches;}
-function pauseForPortrait(){
-  if(state.phase!=='INTRO_PLAYING')return;
-  introWasPausedByRotation=useIOSIntro?!!iosStartedAt:!video.paused;
-  introWaitingForLandscape=true;
-  video.pause();
-  if(useIOSIntro){if(iosTimer)cancelAnimationFrame(iosTimer);iosStartedAt=0;iosIntroImage.hidden=true;iosIntroImage.removeAttribute('src');}
-  cancelAnimationFrame(animationFrame);
-  // Starting in portrait must always begin at frame zero; mid-play rotations resume from the paused frame.
-  if(!introWasPausedByRotation){try{video.currentTime=0;}catch(e){}}
-  playIntroButton.hidden=true;
-}
-async function syncOrientationIntro(){
-  if(state.phase!=='INTRO_PLAYING')return;
-  if(isPortraitMobile()){pauseForPortrait();return;}
-  if(introWaitingForLandscape){
-    introWaitingForLandscape=false;
-    await startIntro();
-  }
-}
-portraitMobileQuery.addEventListener?.('change',syncOrientationIntro);
-window.addEventListener('orientationchange',syncOrientationIntro);
-window.addEventListener('resize',syncOrientationIntro);
+// Portrait and landscape are both fully supported: intro starts immediately.
 async function startIntro(){
-  if(useIOSIntro){if(isPortraitMobile()){pauseForPortrait();return;}startIOSIntro();return;}
-  if(isPortraitMobile()){pauseForPortrait();return;}
+  if(useIOSIntro){startIOSIntro();return;}
   video.muted=true;video.defaultMuted=true;video.playsInline=true;
-  try{await video.play();}
-  catch(err){
-    if(state.phase!=='INTRO_PLAYING')return;
-    console.warn('瀏覽器限制影片自動播放；提供手動播放入口。',err);
-    playIntroButton.hidden=false;
+  try{await video.play();}catch(err){
+    console.warn('瀏覽器阻擋自動播放，提供手動啟動按鈕',err);
+    if(state.phase==='INTRO_PLAYING')playIntroButton.hidden=false;
   }
 }
 playIntroButton.addEventListener('click',async()=>{
-  if(isPortraitMobile()){pauseForPortrait();return;}
   if(useIOSIntro){startIOSIntro();return;}
-  try{await video.play();}
-  catch(err){console.warn('無法播放開場影片，進入可閱讀的備援首頁。',err);finishIntro();}
+  try{await video.play();}catch(err){console.warn(err);finishIntro();}
 });
-if(isPortraitMobile()){introWaitingForLandscape=true;video.pause();try{video.currentTime=0;}catch(e){}}else{startIntro();}
+startIntro();
 const about=`<p class="highlight-quote">「從獨自尋找答案，到希望幫助更多人找到答案。」</p><h3>在有限資源中，練習主動尋找答案</h3><p>我在彰化偏鄉長大，家裡沒有太多餘裕讓我參加補習。當同學放學後還能到補習班問問題，我常常只能自己回家想辦法。遇到課堂上聽不懂的地方，我會拿著手機搜尋不同老師的教學影片，把題目抄在白紙上，一遍又一遍地試。沒有人能立刻回答時，難免會著急，但當我終於靠自己想通一道題目，那份開心也讓我慢慢相信：即使資源有限，我還是能一步一步往前走。也因為記得這種感覺，後來成為老師的我，特別在意學生面對「不會」時，有沒有一個願意陪他繼續想的人。</p><h3>責任感，是我做事的基本態度</h3><ul class="story-bullets"><li><b>對自己的生活負責：</b>從高中二年級開始打工；高三起自行負擔生活所需，大學期間經常每週工作五至六天，下班後再補上課業，學費則透過就學貸款支付。</li><li><b>對選擇的路負責：</b>從元智資傳轉系到資工，再轉學至中原資工，即使面對課程與學分抵免的調整，仍規劃修課，在四年內完成大學學業。</li><li><b>對學生與家長負責：</b>每個月提前安排家教時段，不輕易請假、調課；親自批改作業、視情況補上詳解。即使暫緩升學，也希望陪原本的學生走到國中教育會考結束，而不是中途突然離開。</li><li><b>對工作團隊負責：</b>在補習班除了輔導課業，也主動協助家長聯繫、招生與宣傳，希望讓同事能更放心地合作。</li></ul><div class="two-cols"><div class="mini-panel"><h3>快速適應與獨立思考</h3><ul class="story-bullets"><li>接觸新工作時，先觀察、做筆記、整理流程，讓自己盡快能獨立處理任務。</li><li>遇到程式錯誤時，先查資料、重現問題，再逐步修正，而不是等待別人處理。</li></ul></div><div class="mini-panel"><h3>合作與反思</h3><p>在大學專題「ReNew 校園二手交易平台」的三人團隊中，我參與前端介面與核心功能開發，也主動協助安排進度、整合與除錯。</p><p class="deep-insight">好的合作，是讓每個人都發揮專長，而不是一個人承擔所有事。</p></div></div>`;
 const teaching=`<p class="highlight-quote">「比起讓學生多上一堂課，我更希望他們有一天不需要依賴我，也知道如何自己找到答案。」</p><h3>四年多，從學生的疑惑開始</h3><p>累積四年多補習班、家教與線上課輔經驗，接觸從國小到高中的學生。我會觀察學生答題與反應、找出錯誤的原因，再調整教學方式，而不只是要求多刷題。</p><div class="teaching-reflection"><h3>我如何面對學生的「不會」？</h3><p>我會先問學生想到哪一步、卡在哪個觀念，再用不同例子或提問拆解問題；遇到習慣等待答案的學生，會請他先說出自己的想法，讓學生知道自己其實已經懂了哪些部分。</p><p class="teaching-emphasis">這些教學現場的觀察，成為我想研究「AI 引導式自主學習」的出發點。</p></div><div class="two-cols teaching-cards"><div class="mini-panel"><span class="modal-kicker">01 · CLASSROOM</span><h3>補習班數理輔導老師</h3><p>曾在單學期獨立負責五個國中班級的數學輔導，協助批改、解題、分析學習困難，也參與家長溝通與團隊工作。</p><div class="teaching-gallery"><img loading="lazy" src="assets/teaching/classroom-1.webp" alt="補習班教學現場"><img loading="lazy" src="assets/teaching/classroom-2.webp" alt="補習班學生課堂活動"><img loading="lazy" src="assets/teaching/classroom-3.webp" alt="補習班學生互動"></div></div><div class="mini-panel"><span class="modal-kicker">02 · ONE-ON-ONE</span><h3>一對一家教</h3><p>依學生程度調整進度、手寫詳解與檢查作業。有學生從二、三十分逐步進步至約八十分；更重要的是重新建立學習信心。</p><div class="teaching-gallery"><img loading="lazy" src="assets/teaching/tutoring-1.webp" alt="家教學生的學習與練習情形"></div></div><div class="mini-panel"><span class="modal-kicker">03 · DISTANCE LEARNING</span><h3>遠距課輔志工</h3><p>透過翰林文教遠距課輔，陪伴資源相對有限的學生，理解遠距學習突破地理限制的可能，也注意到志工與維運人力的限制。</p><div class="teaching-gallery"><img loading="lazy" src="assets/teaching/online-1.webp" alt="翰林文教遠距課輔志工證明"><img loading="lazy" src="assets/teaching/online-2.webp" alt="線上課輔實際教學畫面"></div></div><div class="mini-panel"><span class="modal-kicker">04 · REFLECTION</span><h3>從教學到研究</h3><p>我想知道：當老師不在身邊時，怎樣的提示與回饋，才能讓學生知道自己下一步可以如何學習？</p></div></div>`;
 const shot=(name,alt)=>`<img loading="lazy" src="assets/projects/${name}" alt="${alt}">`;

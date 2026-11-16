@@ -360,3 +360,47 @@ body .hero-stage{height:clamp(590px,calc(100vh - 84px),950px)}
  .pre-guide-panel{padding:18px 25px!important;max-height:92dvh;overflow:auto}.pre-guide-panel h2{font-size:23px!important;margin:9px 0}.pre-guide-panel p{font-size:13px!important}
  .guided-shell{max-height:94dvh!important;overflow:auto}.modal-panel{max-height:92dvh!important}
 }
+
+/* V3.22 | Mobile portrait-first layout; no forced rotation */
+.rotate-notice{display:none!important}
+@media (max-width:720px){
+ html,body{width:100%;max-width:100%;overflow-x:hidden!important}
+ .hero{padding:0 14px!important;min-height:0!important}
+ .hero-topline{height:57px!important}
+ .hero-stage{height:min(900px,max(710px,100dvh - 68px))!important;min-height:710px!important;overflow:hidden!important}
+ .hero-title{top:53%!important;transform:translateY(-10%);white-space:normal!important}
+ .hero-title>span{font-size:clamp(24px,7vw,34px)!important;line-height:1.1!important;margin-bottom:4px!important}
+ .hero-title h1{font-size:clamp(51px,12.5vw,76px)!important;letter-spacing:-2px!important;line-height:1.02!important}
+ .character{width:min(78vw,350px)!important;height:clamp(330px,51dvh,460px)!important;left:50%!important;bottom:20%!important;max-width:none!important;transform:translateX(-50%)!important}
+ .character img,.character video,.character .ios-intro-image{object-fit:contain!important;object-position:center bottom!important}
+ .cards-area{z-index:13!important}
+ .comic-card{width:calc(50% - 17px)!important;min-height:97px!important;padding:10px 10px!important;border-radius:16px!important;box-shadow:4px 5px 0 #39241f!important}
+ .card-2{left:1%!important;top:68%!important;right:auto!important;transform:rotate(-3deg)!important}
+ .card-3{right:1%!important;top:68%!important;left:auto!important;transform:rotate(3deg)!important}
+ .card-1{left:1%!important;top:85%!important;right:auto!important;transform:rotate(2deg)!important}
+ .card-4{right:1%!important;top:85%!important;left:auto!important;transform:rotate(-2deg)!important}
+ .card-title{font-size:clamp(17px,4.7vw,23px)!important}
+ .card-caption{font-size:10px!important;white-space:normal!important}
+ .cinematic-intro{padding-top:6%!important;max-width:100%!important}
+ .cinematic-lines{margin-top:5%!important}
+ .cine-top{font-size:clamp(19px,5vw,29px)!important}
+ .cine-mid{font-size:clamp(22px,6vw,34px)!important}
+ .cine-big{font-size:clamp(27px,7.5vw,43px)!important}
+ .cine-split{grid-template-columns:1fr 25% 1fr!important;margin-top:10%!important;gap:0!important}
+ .cinematic-episode{font-size:10px!important}
+ .intro-bubble{max-width:47%!important;padding:8px 10px!important}
+ .intro-bubble strong{font-size:clamp(11px,3vw,14px)!important}
+ .modal-panel{width:calc(100vw - 18px)!important;max-height:94dvh!important;padding:22px 18px!important;border-radius:18px!important}
+ .modal h2{font-size:32px!important}.modal h3{font-size:20px!important}
+ .modal p,.modal li{font-size:14px!important;line-height:1.85!important}
+ .two-cols,.research-questions,.achievement-photos{grid-template-columns:1fr!important}
+ .achievement-grid{grid-template-columns:repeat(2,minmax(0,1fr))!important}
+ .project-images{grid-template-columns:1fr!important}
+ .world-orb{width:clamp(53px,15vw,70px)!important;font-size:11px!important}
+ .world-trait-story{width:calc(100vw - 32px)!important}
+ .pre-guide-panel{max-height:90dvh!important;overflow-y:auto!important;padding:29px 20px!important}
+ .guided-entry{padding:8px!important}.guided-shell{max-height:96dvh!important;overflow:auto!important;padding:20px 16px!important}
+ .guided-equation{font-size:clamp(29px,8vw,42px)!important}
+ footer{padding:20px!important}
+}
+@media (max-width:390px){.hero-stage{min-height:680px!important}.comic-card{min-height:88px!important}.card-number{font-size:8px!important}.card-caption{font-size:9px!important}}

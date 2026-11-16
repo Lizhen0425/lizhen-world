@@ -123,3 +123,5 @@ V3.11：影片片頭字體上移並分開讓出人物空間；眼神標籤重新
 
 ### V3.21 — iPhone compatibility
 On iPhone/iPad, opening character animation uses `assets/videos/intro-ios.webp`, a transparent animated WebP fallback derived from the original WebM Alpha frames. Desktop continues to use `06.webm`. If the phone rotates back to portrait during opening, the animation is stopped and starts from the beginning when returned to landscape. Use a hard reload after updating GitHub Pages to clear cached assets.
+
+V3.22：手機支援直向閱讀，移除強制旋轉，保留 iOS 透明動畫；全文字星芒符號統一為 ✦。

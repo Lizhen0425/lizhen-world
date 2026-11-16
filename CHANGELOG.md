@@ -104,7 +104,9 @@
 - 新增手機觸控卡片「人物變身後開啟內容」動效。
 
 ## V3.21 — iPhone transparency and landscape fix
-- Replace emoji-prone `✳` symbols with monochrome `✦` throughout visible interface.
+- Replace emoji-prone `✦` symbols with monochrome `✦` throughout visible interface.
 - Add transparent animated WebP opening for iPhone/iPad; retain WebM Alpha for desktop browsers.
 - Pause all opening playback until phone is landscape; returning to portrait restarts the WebP intro on next landscape orientation.
 - Fit title, character and four cards inside short landscape phone viewports.
+
+V3.22：手機支援直向閱讀，移除強制旋轉，保留 iOS 透明動畫；全文字星芒符號統一為 ✦。
