@@ -102,3 +102,9 @@
 - 修正特質故事視窗至畫面中央，加入縮放進場。
 - 修正手機直向旋轉提示的覆蓋範圍。
 - 新增手機觸控卡片「人物變身後開啟內容」動效。
+
+## V3.21 — iPhone transparency and landscape fix
+- Replace emoji-prone `✳` symbols with monochrome `✦` throughout visible interface.
+- Add transparent animated WebP opening for iPhone/iPad; retain WebM Alpha for desktop browsers.
+- Pause all opening playback until phone is landscape; returning to portrait restarts the WebP intro on next landscape orientation.
+- Fit title, character and four cards inside short landscape phone viewports.

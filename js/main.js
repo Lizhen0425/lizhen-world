@@ -2,6 +2,31 @@
 const $=s=>document.querySelector(s);
 const state={phase:'INTRO_PLAYING',hover:null,modal:null,transitioning:false};
 const video=$('#introVideo');
+const iosIntroImage=$('#iosIntroImage');
+const useIOSIntro=/iPad|iPhone|iPod/.test(navigator.userAgent)||(navigator.platform==='MacIntel'&&navigator.maxTouchPoints>1);
+let iosStartedAt=0, iosProgress=0, iosTimer=null;
+const iosDuration=5163;
+function iosCueLoop(){
+ if(state.phase!=='INTRO_PLAYING'||!iosStartedAt)return;
+ iosProgress=Math.max(0,Math.min(1,(performance.now()-iosStartedAt)/iosDuration));
+ const active=iosProgress>=.10&&iosProgress<.79?Math.min(3,Math.floor((iosProgress-.10)/.17)):-1;
+ bubbles.forEach((el,i)=>el.classList.toggle('is-visible',i===active));
+ endline.classList.toggle('is-visible',iosProgress>=.84&&iosProgress<.97);
+ if(iosProgress>=1){finishIntro();return;}
+ iosTimer=requestAnimationFrame(iosCueLoop);
+}
+function startIOSIntro(){
+ if(isPortraitMobile()||state.phase!=='INTRO_PLAYING')return;
+ video.pause();video.hidden=true;iosIntroImage.hidden=false;
+ // Replacing the animated image restarts it at frame zero after the orientation gate.
+ iosIntroImage.removeAttribute('src');
+ requestAnimationFrame(()=>{
+  if(isPortraitMobile())return;
+  iosIntroImage.src='assets/videos/intro-ios.webp';
+  iosStartedAt=performance.now();iosCueLoop();
+ });
+}
+
 const character=$('.character'),portrait=$('#characterImage'),introLabel=$('#introLabel');
 const cardsArea=$('#cardsArea'),playIntroButton=$('#playIntro');
 const bubbles=[...document.querySelectorAll('.intro-bubble')];
@@ -24,11 +49,11 @@ function updateIntroCues(){
 function finishIntro(){
   if(state.phase!=='INTRO_PLAYING'||ended)return;
   ended=true;state.phase='INTRO_TRANSITION';cancelAnimationFrame(animationFrame);
-  video.pause();playIntroButton.hidden=true;introLabel.textContent='EXPLORE MY WORLD ✳';
+  video.pause();if(iosTimer)cancelAnimationFrame(iosTimer);iosStartedAt=0;playIntroButton.hidden=true;introLabel.textContent='EXPLORE MY WORLD ✦';
   document.querySelectorAll('.intro-bubble,.intro-endline').forEach(el=>el.classList.remove('is-visible'));
   character.classList.add('is-ready');
   setTimeout(()=>{
-    state.phase='INTERACTIVE';video.hidden=true;portrait.style.opacity='1';
+    state.phase='INTERACTIVE';video.hidden=true;iosIntroImage.hidden=true;portrait.style.opacity='1';
     document.body.classList.remove('intro-active');
     showPreGuide();
     document.querySelector('#introOverlay')?.setAttribute('aria-hidden','true');
@@ -45,9 +70,10 @@ let introWasPausedByRotation=false;
 function isPortraitMobile(){return portraitMobileQuery.matches;}
 function pauseForPortrait(){
   if(state.phase!=='INTRO_PLAYING')return;
-  introWasPausedByRotation=!video.paused;
+  introWasPausedByRotation=useIOSIntro?!!iosStartedAt:!video.paused;
   introWaitingForLandscape=true;
   video.pause();
+  if(useIOSIntro){if(iosTimer)cancelAnimationFrame(iosTimer);iosStartedAt=0;iosIntroImage.hidden=true;iosIntroImage.removeAttribute('src');}
   cancelAnimationFrame(animationFrame);
   // Starting in portrait must always begin at frame zero; mid-play rotations resume from the paused frame.
   if(!introWasPausedByRotation){try{video.currentTime=0;}catch(e){}}
@@ -65,6 +91,7 @@ portraitMobileQuery.addEventListener?.('change',syncOrientationIntro);
 window.addEventListener('orientationchange',syncOrientationIntro);
 window.addEventListener('resize',syncOrientationIntro);
 async function startIntro(){
+  if(useIOSIntro){if(isPortraitMobile()){pauseForPortrait();return;}startIOSIntro();return;}
   if(isPortraitMobile()){pauseForPortrait();return;}
   video.muted=true;video.defaultMuted=true;video.playsInline=true;
   try{await video.play();}
@@ -76,6 +103,7 @@ async function startIntro(){
 }
 playIntroButton.addEventListener('click',async()=>{
   if(isPortraitMobile()){pauseForPortrait();return;}
+  if(useIOSIntro){startIOSIntro();return;}
   try{await video.play();}
   catch(err){console.warn('無法播放開場影片，進入可閱讀的備援首頁。',err);finishIntro();}
 });
@@ -100,7 +128,7 @@ const projectHTML=`<section class="achievement-head"><span class="modal-kicker">
 const research=`<div class="research-hero"><span class="modal-kicker">MY RESEARCH PROPOSAL · 未來規劃</span><h3>生成式 AI 輔助自主學習與認知策略能力培養之系統</h3><p>我希望讓 AI 不急著解題，而是先理解學生卡在哪裡，陪他一步一步想清楚。</p></div><h3>為什麼是清大學科所？</h3><p>我希望在學習科學、認知策略與教育研究方法的訓練下，將過去靠經驗摸索的教學，轉化為能透過研究檢驗的支持方法。我特別關注生成式 AI 學習同伴、循序提問、學習策略與系統設計等方向。</p><h3>未來希望</h3><p>研究所畢業後希望投入教育科技軟體開發，實際做出能讓學生使用的 AI 學習工具。長期持續精進軟體工程能力，也希望讓偏鄉或課後資源不足的孩子，即使沒有老師隨時陪伴，仍能找到下一步。</p><h3>研究從哪裡開始？</h3><p>四年多的補習班、家教與偏鄉遠距課輔中，我發現學生遇到困難時常等待老師給答案；即使答對，也可能不清楚自己是否真正理解。我想結合資訊工程背景與教學觀察，把這些真實的疑問轉成可研究的學習系統。</p><div class="research-questions"><article><span>QUESTION 01</span><h3>怎麼引導學生自己想？</h3><p>比較直接提供解答與循序提問、分階段提示等方式，觀察學生能否逐步完成解題，並將策略運用到類似題。</p></article><article><span>QUESTION 02</span><h3>怎麼發現「以為自己會」？</h3><p>結合作答前信心評估、錯誤類型及提示使用紀錄，找出自信程度與實際表現的落差，提供適切複習建議。</p></article></div><h3>我想設計的學習流程</h3><div class="research-flow"><div><b>01</b><strong>上傳題目</strong><small>辨識題型與知識點</small></div><span>→</span><div><b>02</b><strong>先問信心</strong><small>學生預估是否理解</small></div><span>→</span><div><b>03</b><strong>分層引導</strong><small>概念 → 方向 → 步驟</small></div><span>→</span><div><b>04</b><strong>分析紀錄</strong><small>錯誤、提示與作答</small></div><span>→</span><div><b>05</b><strong>個人練習</strong><small>追蹤弱點與進步</small></div></div><h3>系統將怎麼實作？</h3><div class="two-cols"><div class="mini-panel"><h3>學習者介面與後台</h3><p>規劃以 Next.js 建置跨裝置練習網站，使用 PostgreSQL 保存題庫、答題結果與學習歷程，並提供教師端進度摘要。</p></div><div class="mini-panel"><h3>生成式 AI 與驗算</h3><p>透過 LLM API 辨識文字與圖片題目、生成類似練習，搭配程式計算驗證與審核，降低題目及答案出錯風險。</p></div><div class="mini-panel"><h3>認知策略引導</h3><p>作答前先評估信心；遇到困難時逐步提供觀念、解題方向及步驟提示，並提醒學生回顧錯誤原因。</p></div><div class="mini-panel"><h3>學習歷程分析</h3><p>整理正確率、信心、提示次數、錯題知識點及重複練習結果，呈現「可能需要複習」的概念，而非憑一次錯誤就下定論。</p></div></div><h3>教授可以親自體驗</h3><div class="demo"><div class="demo-equation">2(x + 5) = 14</div><p>先問「2 與括號的關係」，再逐步走到等式性質、逆運算與代回檢查。</p><button id="replayGuided" type="button">體驗 5 步解題 ↗</button><button id="showLearningLog" type="button">查看練習紀錄</button><div class="demo-result" id="learningLog"><p>完成練習後，呈現本機作答與待複習知識點。</p></div><p class="demo-note">預先設計的教學概念示範，並非即時生成 AI 或正式學習診斷。</p></div><h3>如何評估是否真的有幫助？</h3><div class="evaluation-grid"><div><strong>學習成效</strong><p>比較前後測與類似題表現</p></div><div><strong>自主解題</strong><p>觀察提示依賴程度與獨立完成情形</p></div><div><strong>自我辨識</strong><p>檢視信心評估是否逐漸符合實際表現</p></div></div><p class="demo-note">以上均為預計研究方向與系統規劃，並非已完成的研究實驗。</p>`;
 const sections={about:['ABOUT ME','關於理貞',about],teaching:['TEACHING EXPERIENCE','教學經歷',teaching],projects:['PROJECTS & ACHIEVEMENTS','作品成果',projectHTML],research:['RESEARCH INTERESTS','研究方向',research]};
 const modal=$('#modal'),modalBody=$('#modalBody'),modalPanel=$('.modal-panel');let previousFocus=null;
-function openModal(key){const sec=sections[key];if(!sec)return;previousFocus=document.activeElement;state.modal=key;modalBody.innerHTML=`<span class="modal-kicker">${sec[0]}</span><h2 id="modalTitle">${sec[1]} <span style="color:#c98989">✳</span></h2>${sec[2]}`;modal.hidden=false;document.body.style.overflow='hidden';modalPanel.scrollTop=0;modalPanel.focus();if(key==='research')initResearchDemo();if(key==='about')showFloatingTraits();else hideFloatingTraits();}
+function openModal(key){const sec=sections[key];if(!sec)return;previousFocus=document.activeElement;state.modal=key;modalBody.innerHTML=`<span class="modal-kicker">${sec[0]}</span><h2 id="modalTitle">${sec[1]} <span style="color:#c98989">✦</span></h2>${sec[2]}`;modal.hidden=false;document.body.style.overflow='hidden';modalPanel.scrollTop=0;modalPanel.focus();if(key==='research')initResearchDemo();if(key==='about')showFloatingTraits();else hideFloatingTraits();}
 const traitExamples={
  independent:'高二開始打工。大學時，我靠自己的工作收入負擔生活所需，一邊工作、一邊完成課業。',
  duty:'不論是團隊開發或教學，我都希望成為讓人放心的角色。會主動追進度，遇到工作趕不完時也願意多分擔；家教則會提前安排課程，不輕易請假或調課。',

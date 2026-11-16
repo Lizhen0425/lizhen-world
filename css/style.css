@@ -332,3 +332,31 @@ body .hero-stage{height:clamp(590px,calc(100vh - 84px),950px)}
 @media (hover:none) and (pointer:coarse){.comic-card.touch-preview{background:#eeb7b7!important;box-shadow:10px 12px 0 #39241f!important;filter:saturate(1.1);outline:3px solid #c98989;outline-offset:3px;transform:translateY(-10px) rotate(0deg) scale(1.055)!important;transition:transform .26s cubic-bezier(.2,1.3,.4,1),background .26s,filter .26s!important}.character.touch-character{animation:touchCharacterReveal .54s cubic-bezier(.2,1.2,.4,1)} }
 @keyframes touchCharacterReveal{0%{filter:brightness(1) saturate(1);transform:translateX(-50%) scale(1)}45%{filter:brightness(1.11) saturate(1.22);transform:translateX(-50%) scale(1.045)}100%{filter:brightness(1) saturate(1);transform:translateX(-50%) scale(1)}}
 @media(prefers-reduced-motion:reduce){.world-trait-story,.world-trait-story.world-story-show{animation:none!important}}
+
+/* V3.21 iOS transparent animated-WebP intro; WebM Alpha is unreliable in iOS. */
+.character .ios-intro-image{position:absolute;inset:0;width:100%;height:100%;object-fit:cover;object-position:center top;opacity:1;transform:none;transition:opacity .5s ease}
+.character .ios-intro-image[hidden]{display:none!important}
+.character.is-ready .ios-intro-image{opacity:0}
+/* Compact landscape phones: all key hero elements fit a real horizontal viewport. */
+@media (orientation:landscape) and (max-height:550px) and (max-width:1000px){
+ .hero{min-height:0!important;padding-inline:clamp(10px,2vw,24px)!important}
+ .hero-topline{height:36px!important;padding-inline:5px;align-items:center}
+ .hero-stage,.hero .hero-stage{height:calc(100dvh - 42px)!important;min-height:0!important;max-height:none!important;overflow:hidden}
+ .hero-title{top:48%!important;transform:translateY(-4%)}
+ .hero-title>span{font-size:clamp(18px,3.4vw,30px)!important;margin-bottom:0!important}
+ .hero-title h1{font-size:clamp(40px,8.8vw,83px)!important;letter-spacing:-2px!important}
+ .character{height:85%!important;width:clamp(185px,29vw,310px)!important;max-width:none!important;bottom:-4%!important;left:50%!important}
+ .comic-card{width:clamp(135px,22vw,205px)!important;min-height:74px!important;padding:8px 11px!important;border-radius:13px!important;box-shadow:4px 5px 0 #39241f!important}
+ .card-number{font-size:8px!important}.card-title{font-size:clamp(15px,2.4vw,21px)!important}.card-caption{font-size:8px!important}
+ .card-1{left:3%!important;top:52%!important}.card-2{left:6%!important;top:9%!important}
+ .card-3{right:6%!important;left:auto!important;top:9%!important}.card-4{right:3%!important;left:auto!important;top:52%!important}
+ .cinematic-intro{padding-top:0!important}
+ .cinematic-episode{font-size:9px!important;padding:3px 12px!important}
+ .cinematic-lines{margin-top:1%!important}
+ .cine-top{font-size:clamp(17px,3vw,27px)!important}.cine-mid{font-size:clamp(20px,3.6vw,33px)!important}
+ .cine-big{font-size:clamp(30px,5.6vw,56px)!important}
+ .cine-split{margin-top:1.5%!important;grid-template-columns:1fr 28% 1fr!important}
+ .intro-actions{top:0}.intro-bubble{max-width:26%!important;padding:6px 10px!important}.intro-bubble strong{font-size:11px!important}
+ .pre-guide-panel{padding:18px 25px!important;max-height:92dvh;overflow:auto}.pre-guide-panel h2{font-size:23px!important;margin:9px 0}.pre-guide-panel p{font-size:13px!important}
+ .guided-shell{max-height:94dvh!important;overflow:auto}.modal-panel{max-height:92dvh!important}
+}

@@ -120,3 +120,6 @@ V3.11：影片片頭字體上移並分開讓出人物空間；眼神標籤重新
 - 「關於理貞」的特質泡泡點破後，故事在可視畫面中央以縮放彈出，而非固定底部。
 - 手機直向提示使用寬度與方向媒體查詢，涵蓋開場動畫、練習、首頁與四個彈窗；橫向自動關閉。網頁無法真正鎖定手機方向。
 - 觸控手機點擊 01～04 後，先播放人物切換與卡片高亮約 0.66 秒，再自動開啟內容；桌面 Hover 保持不變。
+
+### V3.21 — iPhone compatibility
+On iPhone/iPad, opening character animation uses `assets/videos/intro-ios.webp`, a transparent animated WebP fallback derived from the original WebM Alpha frames. Desktop continues to use `06.webm`. If the phone rotates back to portrait during opening, the animation is stopped and starts from the beginning when returned to landscape. Use a hard reload after updating GitHub Pages to clear cached assets.
