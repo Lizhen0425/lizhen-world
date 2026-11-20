@@ -221,7 +221,7 @@ body.intro-active .bubble-1{left:3%;top:43%}
 body.intro-active .bubble-2{right:3%;top:43%}
 body.intro-active .bubble-3{left:20%;top:10%;width:max-content;max-width:30%;}
 body.intro-active .bubble-4{left:79%;top:60%;bottom:auto;width:max-content;max-width:27%;}
-body.intro-active .intro-endline{bottom:23%;font-size:clamp(12px,1.3vw,18px);max-width:70%;}
+body.intro-active .intro-endline{bottom:30%;font-size:clamp(12px,1.3vw,18px);max-width:70%;}
 /* Modal heading first, scattered drifting orbs just below it. */
 #modalBody>.modal-kicker{display:block;margin-top:0;}
 #modalBody>#modalTitle{margin:10px 0 4px;}
