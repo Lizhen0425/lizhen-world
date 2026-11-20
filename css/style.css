@@ -417,3 +417,10 @@ body .hero-stage{height:clamp(590px,calc(100vh - 84px),950px)}
 
 /* V3.24 — academic highlights in Projects & Achievements */
 .academic-highlight{margin:22px 0 24px;padding:20px;border-radius:20px;background:#f9eee9;border:1px solid #ebd3cb}.academic-highlight-header h4{font-size:22px;margin:7px 0 4px;color:#39241f}.academic-highlight-header p{font-size:13px!important;margin:0 0 16px!important;color:#98746e!important}.academic-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.academic-metric{display:flex;flex-direction:column;gap:9px;justify-content:center;align-items:flex-start;background:#fffcf8;border:1px solid #e5c7bf;border-radius:15px;padding:16px 12px;min-width:0}.academic-metric strong{font:800 clamp(25px,3vw,38px)/1 Fredoka,sans-serif;color:#68423b}.academic-metric strong span{font-size:.46em;color:#c98989}.academic-metric>span{font-size:12px;font-weight:800;color:#86635d;line-height:1.5}@media(max-width:720px){.academic-highlight{padding:14px}.academic-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.academic-metric{min-height:100px}}
+
+/* V3.25 — outward GitHub repository links in project achievements */
+.project-github-link{display:inline-flex;align-items:center;gap:9px;max-width:100%;width:max-content;margin:13px 0 18px;padding:10px 16px;border:1.5px solid #a77c75;border-radius:999px;background:#fffaf7;color:#68423b;font-size:13px;font-weight:900;line-height:1.5;box-shadow:2px 3px 0 #e0bfb8;transition:transform .2s,background .2s,box-shadow .2s}
+.project-github-link:hover,.project-github-link:focus-visible{background:#f8dfdc;transform:translateY(-2px);box-shadow:3px 5px 0 #c98989}
+.github-link-icon{font-family:monospace;font-weight:900;letter-spacing:-1px;font-size:14px}
+.project-github-link span:last-child{font-family:Arial,sans-serif;font-size:20px;line-height:1}
+@media(max-width:720px){.project-github-link{font-size:12px;padding:9px 12px;margin-block:11px 16px}}
