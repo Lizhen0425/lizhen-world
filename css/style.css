@@ -21,7 +21,7 @@ body.intro-complete .card-4{animation-delay:.34s}
 .bubble-2{top:31%;right:8%;--bubble-angle:5deg}
 .bubble-3{top:51%;left:7%;--bubble-angle:4deg}
 .bubble-4{top:54%;right:7%;--bubble-angle:-5deg}
-.intro-endline{position:absolute;bottom:14%;left:50%;width:max-content;max-width:92%;text-align:center;transform:translate(-50%,14px);opacity:0;transition:opacity .3s,transform .4s;background:#fffcf8e8;padding:10px 20px;border-radius:40px;font-weight:900;font-size:clamp(15px,1.5vw,23px);color:#68423b}
+.intro-endline{position:absolute;bottom:25%;left:50%;width:max-content;max-width:92%;text-align:center;transform:translate(-50%,14px);opacity:0;transition:opacity .3s,transform .4s;background:#fffcf8e8;padding:10px 20px;border-radius:40px;font-weight:900;font-size:clamp(15px,1.5vw,23px);color:#68423b}
 .intro-endline em{font-style:normal;color:#c98989}
 .intro-endline.is-visible{opacity:1;transform:translate(-50%,0)}
 .manual-play[hidden]{display:none}
