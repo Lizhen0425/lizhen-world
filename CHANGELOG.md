@@ -110,3 +110,6 @@
 - Fit title, character and four cards inside short landscape phone viewports.
 
 V3.22：手機支援直向閱讀，移除強制旋轉，保留 iOS 透明動畫；全文字星芒符號統一為 ✦。
+
+## V3.24 — 學業亮點
+- 在作品成果新增大一下班排 2/44、系排 3/105，以及程式設計期末 100 分、電子電路學期末 97 分視覺化成績區。

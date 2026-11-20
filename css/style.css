@@ -221,7 +221,7 @@ body.intro-active .bubble-1{left:3%;top:43%}
 body.intro-active .bubble-2{right:3%;top:43%}
 body.intro-active .bubble-3{left:20%;top:10%;width:max-content;max-width:30%;}
 body.intro-active .bubble-4{left:79%;top:60%;bottom:auto;width:max-content;max-width:27%;}
-body.intro-active .intro-endline{bottom:30%;font-size:clamp(12px,1.3vw,18px);max-width:70%;}
+body.intro-active .intro-endline{bottom:23%;font-size:clamp(12px,1.3vw,18px);max-width:70%;}
 /* Modal heading first, scattered drifting orbs just below it. */
 #modalBody>.modal-kicker{display:block;margin-top:0;}
 #modalBody>#modalTitle{margin:10px 0 4px;}
@@ -414,3 +414,6 @@ body .hero-stage{height:clamp(590px,calc(100vh - 84px),950px)}
   .cards-area .card-4{right:3%!important;left:auto!important;top:27%!important;transform:rotate(-4deg)!important}
   .cards-area .comic-card .card-title span{font-family:Arial,sans-serif!important;font-size:.85em!important}
 }
+
+/* V3.24 — academic highlights in Projects & Achievements */
+.academic-highlight{margin:22px 0 24px;padding:20px;border-radius:20px;background:#f9eee9;border:1px solid #ebd3cb}.academic-highlight-header h4{font-size:22px;margin:7px 0 4px;color:#39241f}.academic-highlight-header p{font-size:13px!important;margin:0 0 16px!important;color:#98746e!important}.academic-metrics{display:grid;grid-template-columns:repeat(4,minmax(0,1fr));gap:10px}.academic-metric{display:flex;flex-direction:column;gap:9px;justify-content:center;align-items:flex-start;background:#fffcf8;border:1px solid #e5c7bf;border-radius:15px;padding:16px 12px;min-width:0}.academic-metric strong{font:800 clamp(25px,3vw,38px)/1 Fredoka,sans-serif;color:#68423b}.academic-metric strong span{font-size:.46em;color:#c98989}.academic-metric>span{font-size:12px;font-weight:800;color:#86635d;line-height:1.5}@media(max-width:720px){.academic-highlight{padding:14px}.academic-metrics{grid-template-columns:repeat(2,minmax(0,1fr))}.academic-metric{min-height:100px}}
